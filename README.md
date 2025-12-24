@@ -10,54 +10,68 @@ This repository contains a minimal example server and two helper modules that il
 ## Requirements
 
 - Node.js (v16+ recommended)
+# x402 Example
+
+A small TypeScript example demonstrating two transaction-flow patterns using the `@x402/*` libraries.
+
+## Overview
+
+This repository contains minimal example code showing two approaches for sending transactions and coordinating buyer/server flows:
+
+- **Optimistic**: does NOT wait for the transaction to be mined/settled — the flow proceeds immediately after sending the transaction (non-blocking).
+- **Settle**: waits for the transaction to be mined/confirmed before continuing — the flow blocks until the transaction is settled.
+
+Both approaches are useful in different integration scenarios; this repo provides small example servers and buyer modules for each.
+
+## Features
+
+- `optimistic` flow: fast, non-blocking. The service does not wait for chain confirmation.
+- `settle` flow: waits for the transaction to be confirmed before continuing, which provides stronger delivery guarantees.
+
+## Files (examples)
+
+- [src/optimistic/optimistic-buyer.ts](src/optimistic/optimistic-buyer.ts): buyer-side example using the optimistic (no-wait) flow.
+- [src/optimistic/optimistic-server.ts](src/optimistic/optimistic-server.ts): server that demonstrates the optimistic handling.
+- [src/settle/settle-buyer.ts](src/settle/settle-buyer.ts): buyer-side example that waits for transaction settlement.
+- [src/settle/settle-server.ts](src/settle/settle-server.ts): server that demonstrates the settle (wait-for-confirmation) handling.
+- [src/facilitator.ts](src/facilitator.ts): shared facilitator/orchestration helpers used by the examples.
+
+## Requirements
+
+- Node.js (v16+ recommended)
 - npm
 
 ## Install
 
 Install dependencies:
 
-```
+```bash
 npm install
 ```
 
-This project uses `dotenv` for configuration. Create a `.env` file in the project root to provide environment variables (for example `PORT=3000`).
+Create a `.env` file in the project root for runtime configuration (for example `PORT=3000`).
 
 ## Run
 
-Quick run using `ts-node` (no build step):
+Run the optimistic example server:
 
-```
-npx ts-node src/server.ts
-```
-
-Or compile and run (if you add a `tsconfig.json`):
-
-```
-npm install --save-dev typescript
-npx tsc
-node dist/server.js
+```bash
+npx ts-node src/optimistic/optimistic-server.ts
 ```
 
-If you prefer, add scripts to `package.json` such as `start`, `build` and `dev`.
+Run the settle example server:
 
-## Files
+```bash
+npx ts-node src/settle/settle-server.ts
+```
 
-- `src/server.ts`: Entry point. Starts the Express server and wires up routes/middleware.
-- `src/facilitator.ts`: Helper module that implements facilitator/orchestration logic used by the server.
-- `src/buyer.ts`: Example client or handler logic representing a buyer flow used by the facilitator and server.
-
-## Configuration
-
-Place runtime configuration in a `.env` file. Common variables:
-
-- `PORT` — port the Express server listens on (default: `3000`).
-- Any API keys or endpoints required by the `@x402/*` libraries.
+If you prefer to compile first, install `typescript`, run `npx tsc`, then run the built files from `dist/`.
 
 ## Notes
 
-- The project depends on `express`, `dotenv`, and several `@x402` scoped packages (see `package.json`).
-- There are no tests defined; you can add test scripts to `package.json` as needed.
+- Use the `optimistic` example when low-latency user experience is preferred and you can tolerate eventual settlement.
+- Use the `settle` example when you need to ensure a transaction is confirmed before proceeding.
 
 ## License
 
-This repository does not declare an author in `package.json`. Add a license or author information as appropriate.
+Add license or author information to `package.json` as appropriate.
