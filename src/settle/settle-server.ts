@@ -7,6 +7,11 @@ const app = express();
 
 const payTo = "0xd5de8324D526A201672B30584e495C71BeBb3e9A";
 const NETWORK_ID = "eip155:11155111";
+const TOKEN_CONFIG = {
+  address: "0x940A4894a2c72231c9AD70E6D32B7edadC8F76e3",
+  name: "USD Coin",
+  version: "1",
+};
 const facilitatorClient = new HTTPFacilitatorClient({
   url: "http://localhost:3636",
 });
@@ -21,13 +26,13 @@ app.use(
         accepts: [
           {
             scheme: "exact",
-            // price: "$0.01", for default USDC coin
+            // price: "$0.01", //for default USDC coin
             price: {
-              asset: "0x940A4894a2c72231c9AD70E6D32B7edadC8F76e3",
+              asset: TOKEN_CONFIG.address,
               amount: "1000000000000000000",
               extra: {
-                name: "USD Coin",
-                version: "1",
+                name: TOKEN_CONFIG.name,
+                version: TOKEN_CONFIG.version,
               },
             },
             network: NETWORK_ID,
