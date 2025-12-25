@@ -4,6 +4,8 @@ import { registerExactEvmScheme } from "@x402/evm/exact/server";
 import type { PaymentRequirements } from "@x402/express"; 
 import { privateKeyToAccount } from "viem/accounts";
 import { type Hex } from "viem";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(express.json());

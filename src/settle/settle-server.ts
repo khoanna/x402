@@ -4,6 +4,8 @@ import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
 import { registerExactEvmScheme } from "@x402/evm/exact/server";
 import { privateKeyToAccount } from "viem/accounts";
 import { type Hex } from "viem";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 

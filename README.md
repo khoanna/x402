@@ -56,16 +56,14 @@ Create a `.env` file in the project root for runtime configuration (for example 
 Run the optimistic example server:
 
 ```bash
-npx ts-node src/optimistic/optimistic-server.ts
+node src/optimistic/optimistic-server.ts
 ```
 
 Run the settle example server:
 
 ```bash
-npx ts-node src/settle/settle-server.ts
+node src/settle/settle-server.ts
 ```
-
-If you prefer to compile first, install `typescript`, run `npx tsc`, then run the built files from `dist/`.
 
 ## Notes
 
