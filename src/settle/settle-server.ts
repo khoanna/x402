@@ -2,10 +2,12 @@ import express from "express";
 import { paymentMiddleware } from "@x402/express";
 import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
 import { registerExactEvmScheme } from "@x402/evm/exact/server";
+import { privateKeyToAccount } from "viem/accounts";
+import { type Hex } from "viem";
 
 const app = express();
 
-const payTo = "0xd5de8324D526A201672B30584e495C71BeBb3e9A";
+const payTo = privateKeyToAccount(process.env.RECEIVER_PRIVATE_KEY! as Hex).address;
 const NETWORK_ID = "eip155:11155111";
 const TOKEN_CONFIG = {
   address: "0x940A4894a2c72231c9AD70E6D32B7edadC8F76e3",

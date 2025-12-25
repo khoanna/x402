@@ -8,7 +8,7 @@ dotenv.config();
 const signer = privateKeyToAccount(process.env.BUYER_PRIVATE_KEY! as `0x${string}`);
 
 const client = new x402Client();
-registerExactEvmScheme(client, { signer });
+registerExactEvmScheme(client, {signer});
 
 const fetchWithPayment = wrapFetchWithPayment(fetch, client);
 

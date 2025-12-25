@@ -1,20 +1,21 @@
-import express from "express";
+import express, {type NextFunction, type Request, type Response } from "express";
 import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
 import { registerExactEvmScheme } from "@x402/evm/exact/server";
 import type { PaymentRequirements } from "@x402/express"; 
+import { privateKeyToAccount } from "viem/accounts";
+import { type Hex } from "viem";
 
 const app = express();
 app.use(express.json());
 
-const payTo = "0xd5de8324D526A201672B30584e495C71BeBb3e9A";
+const payTo = privateKeyToAccount(process.env.RECEIVER_PRIVATE_KEY! as Hex).address;
 const NETWORK_ID = "eip155:11155111";
-
 const TOKEN_CONFIG = {
   address: "0x940A4894a2c72231c9AD70E6D32B7edadC8F76e3",
   name: "USD Coin",
   version: "1", 
 };
-
+const TOKEN_AMOUNT = "1000000000000000000";
 const facilitatorClient = new HTTPFacilitatorClient({
   url: "http://localhost:3636",
 });
@@ -22,12 +23,12 @@ const facilitatorClient = new HTTPFacilitatorClient({
 const server = new x402ResourceServer(facilitatorClient);
 registerExactEvmScheme(server);
 
-const handleOptimisticPayment = async (req: any, res: any, next: any) => {
+const handleOptimisticPayment = async (req: Request, res: Response, next: NextFunction) => {
   const PAYMENT_OPTION : PaymentRequirements = {
     scheme: "exact",
     network: NETWORK_ID,
     payTo: payTo,
-    amount: "1000000000000000000",
+    amount: TOKEN_AMOUNT,
     asset: TOKEN_CONFIG.address,
     maxTimeoutSeconds: 300,
     extra: {
@@ -42,7 +43,6 @@ const handleOptimisticPayment = async (req: any, res: any, next: any) => {
     const authHeader = rawHeader;
 
     if (!authHeader) {
-      
       const protocol = req.protocol;
       const host = req.get("host");
       const fullUrl = `${protocol}://${host}${req.originalUrl}`;
