@@ -13,11 +13,11 @@ app.use(express.json());
 const payTo = privateKeyToAccount(process.env.RECEIVER_PRIVATE_KEY! as Hex).address;
 const NETWORK_ID = "eip155:11155111";
 const TOKEN_CONFIG = {
-  address: "0x940A4894a2c72231c9AD70E6D32B7edadC8F76e3",
-  name: "USD Coin",
-  version: "1", 
+  address: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+  name: "USDC",
+  version: "2", 
 };
-const TOKEN_AMOUNT = "1000000000000000000";
+const TOKEN_AMOUNT = "100000";
 const facilitatorClient = new HTTPFacilitatorClient({
   url: "http://localhost:3636",
 });
